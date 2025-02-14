@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ animal.name }}</h1>
+<img src="{{ link }}" alt="{{ animal.name }}" width = "100px">
+<p>Type: {{ animal.animal_type }}</p>
+<p>Birth Year: {{ animal.birth_year }}</p>
+<p>Gender: {{ animal.gender }}</p>
+<p>Phenotype: {{ animal.phenotype }}</p>
+<p>Description: {{ animal.description }}</p>
+<p>History: {{ animal.history }} </p>
+<p>Important: {% if animal.important %} Yes {% else %} No {% endif %}</p>
+<p>Sterilized: {% if animal.sterilization %} Yes {% else %} No {% endif %}</p>
+<p>Chip: {% if animal.chip %} Yes {% else %} No {% endif %}</p>
+
+<a href="{{ url_for('index', id=animal.id) }}" class="btn btn-primary">Назад</a>
+<a href="{{ url_for('edit', id=animal.id) }}" class="btn btn-primary">Редактировать</a>
+<a href="{{ url_for('delete', id=animal.id) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this animal?')">Удалить</a>
+{% endblock %}

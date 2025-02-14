@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>convertor &#8212; документация Сайт для приюта &#34;Лохматые судъбы&#34; 08.02.2025</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=ab44df89"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=5b699b7f"></script>
+    <link rel="index" title="Алфавитный указатель" href="../genindex.html" />
+    <link rel="search" title="Поиск" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Навигация</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Алфавитный указатель"
+             accesskey="I">указатель</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Содержание модулей Python"
+             >модули</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">документация Сайт для приюта &#34;Лохматые судъбы&#34; 08.02.2025</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Код модуля</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">convertor</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Исходный код convertor</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">openpyxl</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">listdir</span>
+
+<div class="viewcode-block" id="yes_or_no">
+<a class="viewcode-back" href="../index.html#convertor.yes_or_no">[документация]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">yes_or_no</span><span class="p">(</span><span class="n">parametr</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">parametr</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">elif</span> <span class="n">parametr</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;да&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+
+<span class="n">connection</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;animals.db&#39;</span><span class="p">)</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">listdir</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">file</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span> <span class="o">==</span> <span class="s1">&#39;xlsx&#39;</span><span class="p">:</span>
+        <span class="c1"># читаем excel-файл</span>
+        <span class="n">wb</span> <span class="o">=</span> <span class="n">openpyxl</span><span class="o">.</span><span class="n">load_workbook</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+        <span class="c1"># печатаем список листов</span>
+        <span class="n">sheets</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">sheetnames</span>
+        <span class="k">for</span> <span class="n">sheet</span> <span class="ow">in</span> <span class="n">sheets</span><span class="p">:</span>
+            <span class="n">cat_data</span> <span class="o">=</span> <span class="n">wb</span><span class="p">[</span><span class="n">sheet</span><span class="p">]</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">cat_data</span><span class="p">[</span><span class="s1">&#39;B1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+            <span class="n">birth_year</span> <span class="o">=</span> <span class="n">cat_data</span><span class="p">[</span><span class="s1">&#39;B2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+            <span class="n">gender</span> <span class="o">=</span> <span class="n">cat_data</span><span class="p">[</span><span class="s1">&#39;B3&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+            <span class="n">phenotype</span> <span class="o">=</span> <span class="n">cat_data</span><span class="p">[</span><span class="s1">&#39;B4&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="n">cat_data</span><span class="p">[</span><span class="s1">&#39;B5&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+            <span class="n">fur_type</span> <span class="o">=</span> <span class="n">cat_data</span><span class="p">[</span><span class="s1">&#39;B6&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+            <span class="c1"># __________________________________________</span>
+            <span class="n">scratching_post</span> <span class="o">=</span> <span class="n">yes_or_no</span><span class="p">(</span><span class="n">cat_data</span><span class="p">[</span><span class="s1">&#39;B7&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">lotochek</span> <span class="o">=</span> <span class="n">yes_or_no</span><span class="p">(</span><span class="n">cat_data</span><span class="p">[</span><span class="s1">&#39;B8&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">possible_dogs</span> <span class="o">=</span> <span class="n">yes_or_no</span><span class="p">(</span><span class="n">cat_data</span><span class="p">[</span><span class="s1">&#39;B9&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">possible_cats</span> <span class="o">=</span> <span class="n">yes_or_no</span><span class="p">(</span><span class="n">cat_data</span><span class="p">[</span><span class="s1">&#39;B10&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">sterilization</span> <span class="o">=</span> <span class="n">yes_or_no</span><span class="p">(</span><span class="n">cat_data</span><span class="p">[</span><span class="s1">&#39;B11&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">vaccinated</span> <span class="o">=</span> <span class="n">yes_or_no</span><span class="p">(</span><span class="n">cat_data</span><span class="p">[</span><span class="s1">&#39;B12&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">chip</span> <span class="o">=</span> <span class="n">yes_or_no</span><span class="p">(</span><span class="n">cat_data</span><span class="p">[</span><span class="s1">&#39;B13&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">have_passport</span> <span class="o">=</span> <span class="n">yes_or_no</span><span class="p">(</span><span class="n">cat_data</span><span class="p">[</span><span class="s1">&#39;B14&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">free</span> <span class="o">=</span> <span class="n">yes_or_no</span><span class="p">(</span><span class="n">cat_data</span><span class="p">[</span><span class="s1">&#39;B15&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="c1"># __________________________________________</span>
+            <span class="n">article_text</span> <span class="o">=</span> <span class="n">cat_data</span><span class="p">[</span><span class="s1">&#39;B16&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+            <span class="n">important</span> <span class="o">=</span> <span class="n">yes_or_no</span><span class="p">(</span><span class="n">cat_data</span><span class="p">[</span><span class="s1">&#39;B17&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">history</span> <span class="o">=</span> <span class="n">cat_data</span><span class="p">[</span><span class="s1">&#39;B18&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;UPDATE Animal SET </span>
+<span class="s1">            birth_year = ?,</span>
+<span class="s1">            gender = ?,</span>
+<span class="s1">            phenotype = ?, </span>
+<span class="s1">            color = ?,</span>
+<span class="s1">            fur_type = ?, </span>
+<span class="s1">            scratching_post = ?, </span>
+<span class="s1">            lotochek = ?, </span>
+<span class="s1">            possible_dogs = ?, </span>
+<span class="s1">            possible_cats = ?, </span>
+<span class="s1">            sterilization = ?, </span>
+<span class="s1">            vaccinated = ?, </span>
+<span class="s1">            chip = ?, </span>
+<span class="s1">            have_passport = ?, </span>
+<span class="s1">            free = ?, </span>
+<span class="s1">            article_text = ?, </span>
+<span class="s1">            important = ?, </span>
+<span class="s1">            history = ? </span>
+<span class="s1">            WHERE name = ?&#39;&#39;&#39;</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">birth_year</span><span class="p">,</span>
+            <span class="n">gender</span><span class="p">,</span>
+            <span class="n">phenotype</span><span class="p">,</span>
+            <span class="n">color</span><span class="p">,</span>
+            <span class="n">fur_type</span><span class="p">,</span>
+            <span class="n">scratching_post</span><span class="p">,</span>
+            <span class="n">lotochek</span><span class="p">,</span>
+            <span class="n">possible_dogs</span><span class="p">,</span>
+            <span class="n">possible_cats</span><span class="p">,</span>
+            <span class="n">sterilization</span><span class="p">,</span>
+            <span class="n">vaccinated</span><span class="p">,</span>
+            <span class="n">chip</span><span class="p">,</span>
+            <span class="n">have_passport</span><span class="p">,</span>
+            <span class="n">free</span><span class="p">,</span>
+            <span class="n">article_text</span><span class="p">,</span>
+            <span class="n">important</span><span class="p">,</span>
+            <span class="n">history</span><span class="p">,</span>
+            <span class="n">name</span><span class="p">))</span>
+
+<span class="n">connection</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Навигация</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Алфавитный указатель"
+             >указатель</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Содержание модулей Python"
+             >модули</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">документация Сайт для приюта &#34;Лохматые судъбы&#34; 08.02.2025</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Код модуля</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">convertor</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Авторские права 2025, С.С. Александрова.
+      Создано с использованием <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+  </body>
+</html>

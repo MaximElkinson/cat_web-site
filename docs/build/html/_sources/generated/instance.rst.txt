@@ -1,0 +1,6 @@
+﻿instance
+========
+
+.. automodule:: instance
+
+   

@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Добавить животное</h2>
+<form method="post">
+    <div class="form-group">
+        <label for="photo">Фото (URL)</label>
+        <input type="file" class="form-control" id="photo" name="photo"  required >
+    </div>
+
+    <div class="form-group">
+        <label for="animal_type_id">Тип животного</label>
+        <select class="form-control" id="animal_type_id" name="animal_type_id" required>
+            <!-- Здесь вы можете динамически заполнять выпадающий список из базы данных -->
+            {% for animal_type in animal_types %}
+            <option value="{{ animal_type.id }}">{{ animal_type.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="name">Кличка</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+
+    <div class="form-group">
+        <label for="birth_year">Год рождения</label>
+        <input type="number" class="form-control" id="birth_year" name="birth_year" required>
+    </div>
+
+    <div class="form-group">
+        <label for="gender">Пол</label>
+        <select class="form-control" id="gender" name="gender">
+            <option value="Мужской">Мужской</option>
+            <option value="Женский">Женский</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="color_id">Окрас</label>
+        <select class="form-control" id="color_id" name="color_id">
+            {% for color in colors %}
+            <option value="{{ color.id }}">{{ color.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="fur_type_id">Тип шерсти</label>
+        <select class="form-control" id="fur_type_id" name="fur_type_id">
+            {% for fur_type in fur_types %}
+            <option value="{{ fur_type.id }}">{{ fur_type.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="phenotype">Фенотип</label>
+        <input type="text" class="form-control" id="phenotype" name="phenotype">
+    </div>
+
+    <div class="form-group">
+        <label for="description">Описание</label>
+        <textarea class="form-control" id="description" name="description"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="history">История</label>
+        <textarea class="form-control" id="history" name="history"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="article_text">Текст статьи</label>
+        <textarea class="form-control" id="article_text" name="article_text"></textarea>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="important" name="important">
+        <label class="form-check-label" for="important">Важно</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="sterilization" name="sterilization">
+        <label class="form-check-label" for="sterilization">Стерилизовано</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="chip" name="chip">
+        <label class="form-check-label" for="chip">Чипировано</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Сохранить</button>
+</form>
+<a href="{{ url_for('index') }}" class="btn btn-secondary mt-3">Назад</a>
+{% endblock %}

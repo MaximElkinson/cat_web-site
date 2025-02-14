@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="{{ url_for('create') }}" class="btn btn-primary mb-3">Добавить животное</a>
+<a href="{{ url_for('admin') }}" class="btn btn-primary mb-3">Статистика</a>
+<form method="post">
+<input type="text" id="animalname" name="animalname">
+    <select name="searchanimaltype">
+            <option value="кошка/собака">кошка/собака</option>
+            <option value="кошка">кошка</option>
+            <option value="собака">собака</option>
+        </select>
+<button type="submit" class="btn btn-primary mb-3">Найти</button>
+    </form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Фото</th>
+            <th>Кличка</th>
+            <th>Тип животного</th>
+            <th>Пол</th>
+            <th>Год рождения</th>
+            <th>Фенотип</th>
+            <th>Окрас</th>
+            <th>Описание</th>
+            <th>Стерилизовано</th>
+            <th>Чипировано</th>
+            <th>Приучено к когтеточке</th>
+            <th>Приучено к лотку</th>
+            <th>Уживается с собаками</th>
+            <th>Уживается с котами</th>
+            <th>Вакцинировано</th>
+            <th>Имеет паспорт</th>
+            <th>Бесплатно</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for animal in animals %}
+        <tr>
+            <td><img src="{{ links[animal.name] }}" alt="{{ animal.name }}" width = "100px"></td>
+            <td>{{ animal.name }}</td>
+            {% for type in animals_types %}
+            {% if type.id == animal.animal_type_id %}<td>{{ type.name }}</td>{% endif %}
+            {% endfor %}
+            <td>{{ animal.gender }}</td>
+            <td>{{ animal.birth_year }}</td>
+            <td>{{ animal.phenotype }}</td>
+            <td>{{ animal.color }}</td>
+            <td>{% if  animal.article_text  %} Имеется {% else %} - {% endif %}</td>
+            <td>{% if  animal.sterilization  %} ✅ {% else %} ❌ {% endif %}</td>
+            <td>{% if  animal.chip  %} ✅ {% else %} ❌ {% endif %}</td>
+            <td>{% if  animal.scratching_post  %} ✅ {% else %} ❌ {% endif %}</td>
+            <td>{% if  animal.lotochek  %} ✅ {% else %} ❌ {% endif %}</td>
+            <td>{% if  animal.possible_dogs  %} ✅ {% else %} ❌ {% endif %}</td>
+            <td>{% if  animal.possible_cats  %} ✅ {% else %} ❌ {% endif %}</td>
+            <td>{% if  animal.vaccinated  %} ✅ {% else %} ❌ {% endif %}</td>
+            <td>{% if  animal.have_passport  %} ✅ {% else %} ❌ {% endif %}</td>
+            <td>{% if  animal.free  %} ✅ {% else %} ❌ {% endif %}</td>
+            <td>
+                <a href="{{ url_for('edit', id=animal.id) }}" class="btn btn-warning">Редактировать</a>
+                <a href="{{ url_for('animal_detail', id=animal.id) }}" class="btn btn-warning">Подробнее</a>
+                <a href="{{ url_for('delete', id=animal.id) }}" class="btn btn-danger">Удалить</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Редактировать животное: {{ animal.name }}</h2>
+<form method="post">
+    <div class="form-group">
+        <label for="photo">Фото (URL)</label>
+        <input type="file" class="form-control" id="photo" name="photo" value="{{ animal.photo }}" required>
+    </div>
+
+    <div class="form-group">
+        <label for="animal_type_id">Тип животного</label>
+        <select class="form-control" id="animal_type_id" name="animal_type_id" required>
+            {% for animal_type in animal_types %}
+            <option value="{{ animal_type.id }}" {% if animal.animal_type_id == animal_type.id %}selected{% endif %}>
+                {{ animal_type.name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="name">Кличка</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ animal.name }}" required>
+    </div>
+
+    <div class="form-group">
+        <label for="birth_year">Год рождения</label>
+        <input type="number" class="form-control" id="birth_year" name="birth_year" value="{{ animal.birth_year }}" required>
+    </div>
+
+    <div class="form-group">
+        <label for="gender">Пол</label>
+        <select class="form-control" id="gender" name="gender">
+            <option value="Мужской" {% if animal.gender == 'Мужской' %}selected{% endif %}>Мужской</option>
+            <option value="Женский" {% if animal.gender == 'Женский' %}selected{% endif %}>Женский</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="color_id">Окрас</label>
+        <select class="form-control" id="color_id" name="color_id">
+            {% for color in colors %}
+            <option value="{{ color.id }}" {% if animal.color_id == color.id %}selected{% endif %}>
+                {{ color.name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="fur_type_id">Тип шерсти</label>
+        <select class="form-control" id="fur_type_id" name="fur_type_id">
+            {% for fur_type in fur_types %}
+            <option value="{{ fur_type.id }}" {% if animal.fur_type_id == fur_type.id %}selected{% endif %}>
+                {{ fur_type.name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="phenotype">Фенотип</label>
+        <input type="text" class="form-control" id="phenotype" name="phenotype" value="{{ animal.phenotype }}">
+    </div>
+
+    <div class="form-group">
+        <label for="description">Описание</label>
+        <textarea class="form-control" id="description" name="description">{{ animal.description }}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="history">История</label>
+        <textarea class="form-control" id="history" name="history">{{ animal.history }}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="article_text">Текст статьи</label>
+        <textarea class="form-control" id="article_text" name="article_text">{{ animal.article_text }}</textarea>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="important" name="important"
+               {% if animal.important %}checked{% endif %}>
+        <label class="form-check-label" for="important">Важно</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="sterilization" name="sterilization"
+               {% if animal.sterilization %}checked{% endif %}>
+        <label class="form-check-label" for="sterilization">Стерилизовано</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="chip" name="chip"
+               {% if animal.chip %}checked{% endif %}>
+        <label class="form-check-label" for="chip">Чипировано</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="scratching_post" name="scratching_post"
+               {% if animal.scratching_post %}checked{% endif %}>
+        <label class="form-check-label" for="scratching_post">Приучено к когтеточке</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="lotochek" name="lotochek"
+               {% if animal.lotochek %}checked{% endif %}>
+        <label class="form-check-label" for="lotochek">Приучено к лотку</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="possible_dogs" name="possible_dogs"
+               {% if animal.possible_dogs %}checked{% endif %}>
+        <label class="form-check-label" for="possible_dogs">Уживается с собаками</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="possible_cats" name="possible_cats"
+               {% if animal.possible_cats %}checked{% endif %}>
+        <label class="form-check-label" for="possible_cats">Уживается с котами</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="vaccinated" name="vaccinated"
+               {% if animal.vaccinated %}checked{% endif %}>
+        <label class="form-check-label" for="vaccinated">Вакциноровано</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="have_passport" name="have_passport"
+               {% if animal.have_passport %}checked{% endif %}>
+        <label class="form-check-label" for="have_passport">Имеет паспорт</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="free" name="free"
+               {% if animal.free %}checked{% endif %}>
+        <label class="form-check-label" for="free">Бесплатно</label>
+    </div>
+
+    <button type "submit" class = "btn btn-primary mt-3">Сохранить изменения</button>
+</form>
+
+<a href="{{ url_for('index') }}" class = "btn btn-secondary mt-3">Назад</a>
+{% endblock %}

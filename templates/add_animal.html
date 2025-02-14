@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Add New Animal</h1>
+<form method="POST">
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+    <div class="mb-3">
+        <label for="birth_year" class="form-label">Birth Year</label>
+        <input type="number" class="form-control" id="birth_year" name="birth_year">
+    </div>
+    <div class="mb-3">
+        <label for="gender" class="form-label">Gender</label>
+        <input type="text" class="form-control" id="gender" name="gender">
+    </div>
+    <div class="mb-3">
+        <label for="phenotype" class="form-label">Phenotype</label>
+        <input type="text" class="form-control" id="phenotype" name="phenotype">
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" name="description"></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="history" class="form-label">History</label>
+        <textarea class="form-control" id="history" name="history"></textarea>
+    </div>
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="important" name="important">
+        <label class="form-check-label" for="important">Important</label>
+    </div>
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="sterilized" name="sterilized">
+        <label class="form-check-label" for="sterilized">Sterilized</label>
+    </div>
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="chipped" name="chipped">
+        <label class="form-check-label" for="chipped">Chipped</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Animal</button>
+</form>
+{% endblock %}
